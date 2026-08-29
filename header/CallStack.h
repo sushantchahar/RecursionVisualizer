@@ -14,10 +14,14 @@ class CallStack
 private:
     std::vector<StackFrame> StackFrames;
 
-public:
-    void ShowStackFrames();
+private:
     void PushFrame(const StackFrame &stackframe);
     void PopFrame();
+
+public:
+    void EnterFunction(std::string FunctionName);
+    void ExitFunction();
+    void ShowStackFrames();
 };
 
 
