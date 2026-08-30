@@ -17,12 +17,7 @@ void CallStack::EnterFunction(const std::string FunctionName, vector<Variable> &
 {
     StackFrame stackframe;
     stackframe.FunctionName = FunctionName;
-    stackframe.FunctionDepth = StackFrames.size() + 1;
-    for (auto variable : variables)
-    {
-        AddVariable(stackframe, variable);
-    }
-
+    stackframe.CallDepth = StackFrames.size() + 1;
     for (auto parameter : parameters)
     {
         AddParameter(stackframe, parameter);
@@ -46,13 +41,57 @@ void CallStack::AddParameter(StackFrame &stackframe, const Variable &variable)
     stackframe.Parameters.push_back(variable);
 }
 
+StackFrame& CallStack::GetCurrentStackFrame()
+{
+    return StackFrames.back();
+}
+
+void CallStack::UpdateVariable(StackFrame &stackframe, const Variable &variable)
+{
+    for (auto &var : stackframe.Variables)
+    {
+        if (variable.VariableName == var.VariableName)
+        {
+            var.VariableValue = variable.VariableValue;
+        }
+    }
+}
+
 void CallStack::ShowStackFrames()
 {
-    for (auto stackframe : StackFrames)
+    for (const StackFrame& frame : StackFrames)
     {
-        cout << "Function Name = " << stackframe.FunctionName << "\n";
-        cout << "Call Depth = " << stackframe.FunctionDepth << "\n";
-    }
+        cout << "Function Name = " << frame.FunctionName << "\n";
+        cout << "Call Depth = " << frame.CallDepth << "\n";
 
-    cout << "<------------------------------------------------------------------------------------------>" << "\n";
+        cout << "Parameters\n";
+
+        for (const Variable& parameter : frame.Parameters)
+        {
+            cout << "    Parameter Name = "
+                 << parameter.VariableName << "\n";
+
+            cout << "    Parameter Type = "
+                 << parameter.VariableType << "\n";
+
+            cout << "    Parameter Value = "
+                 << parameter.VariableValue << "\n";
+        }
+
+        cout << "Variables\n";
+
+        for (const Variable& variable : frame.Variables)
+        {
+            cout << "    Variable Name = "
+                 << variable.VariableName << "\n";
+
+            cout << "    Variable Type = "
+                 << variable.VariableType << "\n";
+
+            cout << "    Variable Value = "
+                 << variable.VariableValue << "\n";
+        }
+        cout << "\n";
+    }
+    cout << "<------------------------------------------------------------------------------------------>\n";
 }

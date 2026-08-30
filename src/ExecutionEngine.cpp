@@ -15,5 +15,13 @@ void ExecutionEngine::ProcessEvent(ExecutionEvent &event)
         case EventType::FunctionExit:
             callstack.ExitFunction(event.FunctionName);
             break;
+
+        case EventType::VariableCreate:
+            callstack.AddVariable(callstack.GetCurrentStackFrame(), event.variable);
+            break;
+
+        case EventType::VariableUpdate:
+            callstack.UpdateVariable(callstack.GetCurrentStackFrame(), event.variable);
+            break;
     }
 }

@@ -13,7 +13,7 @@ struct Variable
 struct StackFrame
 {
     std::string FunctionName;
-    int FunctionDepth = 0;
+    int CallDepth = 0;
 
     std::vector<Variable> Variables;
     std::vector<Variable> Parameters;
@@ -27,10 +27,12 @@ private:
 private:
     void PushFrame(const StackFrame &stackframe);
     void PopFrame();
-    void AddVariable(StackFrame &stackframe, const Variable &variable);
     void AddParameter(StackFrame &stackframe, const Variable &variable);
 
 public:
+    StackFrame& GetCurrentStackFrame();
+    void AddVariable(StackFrame &stackframe, const Variable &variable);
+    void UpdateVariable(StackFrame &stackframe, const Variable &variable);
     void EnterFunction(const std::string FunctionName, std::vector<Variable> &variables, std::vector<Variable> &parameters);
     void ExitFunction(std::string &FunctionName);
     void ShowStackFrames();
