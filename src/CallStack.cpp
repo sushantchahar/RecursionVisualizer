@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-void CallStack::PushFrame(const StackFrame stackframe)
+void CallStack::PushFrame(const StackFrame &stackframe)
 {
     StackFrames.push_back(stackframe);
 }
@@ -13,28 +13,35 @@ void CallStack::PopFrame()
     StackFrames.pop_back();
 }
 
-void CallStack::EnterFunction(std::string FunctionName)
+void CallStack::EnterFunction(const std::string FunctionName, vector<Variable> &variables, vector<Variable> &parameters)
 {
     StackFrame stackframe;
     stackframe.FunctionName = FunctionName;
     stackframe.FunctionDepth = StackFrames.size() + 1;
-    Variable variable;
-    AddVariable(stackframe, variable);
-    AddParameter(stackframe, variable);
+    for (auto variable : variables)
+    {
+        AddVariable(stackframe, variable);
+    }
+
+    for (auto parameter : parameters)
+    {
+        AddParameter(stackframe, parameter);
+    }
     PushFrame(stackframe);
 }
 
-void CallStack::ExitFunction()
+void CallStack::ExitFunction(string &FunctionName)
 {
+    if (StackFrames.back().FunctionName != FunctionName) return;
     CallStack::PopFrame();
 }
 
-void CallStack::AddVariable(StackFrame &stackframe, const Variable variable)
+void CallStack::AddVariable(StackFrame &stackframe, const Variable &variable)
 {
     stackframe.Variables.push_back(variable);
 }
 
-void CallStack::AddParameter(StackFrame &stackframe, const Variable variable)
+void CallStack::AddParameter(StackFrame &stackframe, const Variable &variable)
 {
     stackframe.Parameters.push_back(variable);
 }

@@ -25,14 +25,14 @@ private:
     std::vector<StackFrame> StackFrames;
 
 private:
-    void PushFrame(const StackFrame stackframe);
+    void PushFrame(const StackFrame &stackframe);
     void PopFrame();
-    void AddVariable(StackFrame &stackframe, const Variable variable);
-    void AddParameter(StackFrame &stackframe, const Variable variable);
+    void AddVariable(StackFrame &stackframe, const Variable &variable);
+    void AddParameter(StackFrame &stackframe, const Variable &variable);
 
 public:
-    void EnterFunction(std::string FunctionName);
-    void ExitFunction();
+    void EnterFunction(const std::string FunctionName, std::vector<Variable> &variables, std::vector<Variable> &parameters);
+    void ExitFunction(std::string &FunctionName);
     void ShowStackFrames();
 };
 
