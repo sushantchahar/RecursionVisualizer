@@ -2,13 +2,14 @@
 #define RECURSIONVISUALIZER_EXECUTIONEVENT_H
 
 #include <string>
+#include "../header/CallStack.h"
 
 enum class EventType
 {
     FunctionEnter,
     FunctionExit,
     VariableCreate,
-    VariableUpdate
+    VariableUpdate,
 };
 
 struct ExecutionEvent

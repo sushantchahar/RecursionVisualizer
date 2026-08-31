@@ -2,14 +2,15 @@
 #include "../header/ExecutionEvent.h"
 #include "../header/CallStack.h"
 
-ExecutionEngine::ExecutionEngine(CallStack &callstack) : callstack(callstack){}
+ExecutionEngine::ExecutionEngine(CallStack &callstack, ExecutionHistory &history) : callstack(callstack), history(history){}
 
 void ExecutionEngine::ProcessEvent(ExecutionEvent &event)
 {
+    history.AddEvent(event);
     switch (event.Type)
     {
         case EventType::FunctionEnter:
-            callstack.EnterFunction(event.FunctionName, event.Variables, event.Parameters);
+            callstack.EnterFunction(event.FunctionName, event.Parameters);
             break;
 
         case EventType::FunctionExit:

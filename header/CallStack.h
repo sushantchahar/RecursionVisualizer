@@ -33,7 +33,7 @@ public:
     StackFrame& GetCurrentStackFrame();
     void AddVariable(StackFrame &stackframe, const Variable &variable);
     void UpdateVariable(StackFrame &stackframe, const Variable &variable);
-    void EnterFunction(const std::string FunctionName, std::vector<Variable> &variables, std::vector<Variable> &parameters);
+    void EnterFunction(const std::string &FunctionName, std::vector<Variable> &parameters);
     void ExitFunction(std::string &FunctionName);
     void ShowStackFrames();
 };

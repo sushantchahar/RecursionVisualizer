@@ -1,5 +1,6 @@
 #include "../header/CallStack.h"
 #include <iostream>
+#include <stdexcept>
 using namespace std;
 
 void CallStack::PushFrame(const StackFrame &stackframe)
@@ -13,7 +14,7 @@ void CallStack::PopFrame()
     StackFrames.pop_back();
 }
 
-void CallStack::EnterFunction(const std::string FunctionName, vector<Variable> &variables, vector<Variable> &parameters)
+void CallStack::EnterFunction(const std::string &FunctionName, vector<Variable> &parameters)
 {
     StackFrame stackframe;
     stackframe.FunctionName = FunctionName;
@@ -27,6 +28,7 @@ void CallStack::EnterFunction(const std::string FunctionName, vector<Variable> &
 
 void CallStack::ExitFunction(string &FunctionName)
 {
+    if (StackFrames.empty()) {throw std::runtime_error("Invalid function to exit");}
     if (StackFrames.back().FunctionName != FunctionName) return;
     CallStack::PopFrame();
 }
@@ -43,6 +45,7 @@ void CallStack::AddParameter(StackFrame &stackframe, const Variable &variable)
 
 StackFrame& CallStack::GetCurrentStackFrame()
 {
+    if (StackFrames.empty()) throw std::runtime_error("Following variable is not created....");
     return StackFrames.back();
 }
 
