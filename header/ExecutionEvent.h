@@ -10,6 +10,7 @@ enum class EventType
     FunctionExit,
     VariableCreate,
     VariableUpdate,
+    FunctionReturn
 };
 
 struct ExecutionEvent
@@ -21,6 +22,7 @@ struct ExecutionEvent
     std::vector<Variable> Variables;
 
     Variable variable;
+    Variable ReturnValue;
 };
 
 #endif //RECURSIONVISUALIZER_EXECUTIONEVENT_H

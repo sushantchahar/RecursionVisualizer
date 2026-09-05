@@ -14,6 +14,7 @@ public:
     void ExitFunction(std::string FunctionName);
     void VariableCreate(Variable &variable);
     void VariableUpdate(Variable &variable);
+    void ReturnFunctionValue(std::string FunctionName, const Variable &ReturnValue);
 };
 
 #endif //RECURSIONVISUALIZER_EXECUTIONTRACER_H

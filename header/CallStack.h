@@ -17,6 +17,9 @@ struct StackFrame
 
     std::vector<Variable> Variables;
     std::vector<Variable> Parameters;
+
+    Variable ReturnedValue;
+    bool HasReturned = false;
 };
 
 class CallStack
@@ -36,6 +39,9 @@ public:
     void EnterFunction(const std::string &FunctionName, std::vector<Variable> &parameters);
     void ExitFunction(std::string &FunctionName);
     void ShowStackFrames();
+    void Clear();
+    void SetReturnedValue(const Variable &variable);
+    const bool HasCurrentStackFrameReturned();
 };
 
 

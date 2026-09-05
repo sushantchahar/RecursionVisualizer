@@ -35,6 +35,15 @@ void CallStack::ExitFunction(string &FunctionName)
 
 void CallStack::AddVariable(StackFrame &stackframe, const Variable &variable)
 {
+    for (auto &var : stackframe.Variables)
+    {
+        if (var.VariableName == variable.VariableName)
+        {
+            throw runtime_error("Variable already exist");
+        }
+        else continue;
+    }
+
     stackframe.Variables.push_back(variable);
 }
 
@@ -45,7 +54,7 @@ void CallStack::AddParameter(StackFrame &stackframe, const Variable &variable)
 
 StackFrame& CallStack::GetCurrentStackFrame()
 {
-    if (StackFrames.empty()) throw std::runtime_error("Following variable is not created....");
+    if (StackFrames.empty()) throw std::runtime_error("Callstack is empty");
     return StackFrames.back();
 }
 
@@ -57,7 +66,28 @@ void CallStack::UpdateVariable(StackFrame &stackframe, const Variable &variable)
         {
             var.VariableValue = variable.VariableValue;
         }
+        else
+        {
+            continue;
+        }
     }
+}
+
+void CallStack::Clear()
+{
+    StackFrames.clear();
+}
+
+void CallStack::SetReturnedValue(const Variable &variable)
+{
+    if (StackFrames.empty()) throw std::runtime_error("Cannot return function. Callstack is empty");
+    GetCurrentStackFrame().ReturnedValue = variable;
+    GetCurrentStackFrame().HasReturned = true;
+}
+
+const bool CallStack::HasCurrentStackFrameReturned()
+{
+    return GetCurrentStackFrame().HasReturned;
 }
 
 void CallStack::ShowStackFrames()
@@ -94,6 +124,8 @@ void CallStack::ShowStackFrames()
             cout << "    Variable Value = "
                  << variable.VariableValue << "\n";
         }
+
+        cout << "Returned Value = " << frame.ReturnedValue.VariableValue << "\n";
         cout << "\n";
     }
     cout << "<------------------------------------------------------------------------------------------>\n";

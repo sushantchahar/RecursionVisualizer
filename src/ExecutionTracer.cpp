@@ -33,5 +33,15 @@ void ExecutionTracer::VariableUpdate(Variable &variable)
     ExecutionEvent VariableUpdateEvent;
     VariableUpdateEvent.Type = EventType::VariableUpdate;
     VariableUpdateEvent.variable = variable;
+    VariableUpdateEvent.variable.VariableValue = variable.VariableValue;
     engine.ProcessEvent(VariableUpdateEvent);
+}
+
+void ExecutionTracer::ReturnFunctionValue(std::string FunctionName, const Variable &ReturnValue)
+{
+    ExecutionEvent FunctionReturnEvent;
+    FunctionReturnEvent.FunctionName = FunctionName;
+    FunctionReturnEvent.Type = EventType::FunctionReturn;
+    FunctionReturnEvent.ReturnValue = ReturnValue;
+    engine.ProcessEvent(FunctionReturnEvent);
 }
