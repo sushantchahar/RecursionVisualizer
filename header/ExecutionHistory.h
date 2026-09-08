@@ -6,6 +6,7 @@
 class ExecutionHistory
 {
 private:
+    static int counter;
     std::vector<ExecutionEvent> Events;
 
 public:
@@ -13,6 +14,7 @@ public:
     const ExecutionEvent& GetEvent(size_t index) const;
     const size_t GetEventCount() const;
     void Clear();
+    void PrintEvent(const ExecutionEvent& Event);
 };
 
 #endif //RECURSIONVISUALIZER_EXECUTIONHISTORY_H

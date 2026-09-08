@@ -12,8 +12,8 @@ public:
 
     void EnterFunction(std::string FunctionName, std::vector<Variable> &Parameters);
     void ExitFunction(std::string FunctionName);
-    void VariableCreate(Variable &variable);
-    void VariableUpdate(Variable &variable);
+    void VariableCreate(const std::string FunctionName, Variable &variable);
+    void VariableUpdate(const std::string FunctionName, Variable &variable);
     void ReturnFunctionValue(std::string FunctionName, const Variable &ReturnValue);
 };
 

@@ -7,8 +7,8 @@ ExecutionEngine::ExecutionEngine(CallStack &callstack, ExecutionHistory &history
 
 void ExecutionEngine::ProcessEvent(ExecutionEvent &event)
 {
-    history.AddEvent(event);
     ApplyEvent(event);
+    history.AddEvent(event);
 }
 
 void ExecutionEngine::Replay(size_t index)
@@ -32,22 +32,27 @@ void ExecutionEngine::ApplyEvent(ExecutionEvent &event)
     {
     case EventType::FunctionEnter:
         callstack.EnterFunction(event.FunctionName, event.Parameters);
+        event.CallDepth = callstack.GetCurrentStackFrame().CallDepth;
         break;
 
     case EventType::FunctionExit:
+        event.CallDepth = callstack.GetCurrentStackFrame().CallDepth;
         callstack.ExitFunction(event.FunctionName);
         break;
 
     case EventType::VariableCreate:
         callstack.AddVariable(callstack.GetCurrentStackFrame(), event.variable);
+        event.CallDepth = callstack.GetCurrentStackFrame().CallDepth;
         break;
 
     case EventType::VariableUpdate:
         callstack.UpdateVariable(callstack.GetCurrentStackFrame(), event.variable);
+        event.CallDepth = callstack.GetCurrentStackFrame().CallDepth;
         break;
 
     case EventType::FunctionReturn:
         callstack.SetReturnedValue(event.ReturnValue);
+        event.CallDepth = callstack.GetCurrentStackFrame().CallDepth;
         break;
     }
 }

@@ -20,17 +20,19 @@ void ExecutionTracer::ExitFunction(std::string FunctionName)
     engine.ProcessEvent(FunctionExitEvent);
 }
 
-void ExecutionTracer::VariableCreate(Variable &variable)
+void ExecutionTracer::VariableCreate(const std::string FunctionName,Variable &variable)
 {
     ExecutionEvent VariableCreateEvent;
+    VariableCreateEvent.FunctionName = FunctionName;
     VariableCreateEvent.Type = EventType::VariableCreate;
     VariableCreateEvent.variable = variable;
     engine.ProcessEvent(VariableCreateEvent);
 }
 
-void ExecutionTracer::VariableUpdate(Variable &variable)
+void ExecutionTracer::VariableUpdate(const std::string FunctionName, Variable &variable)
 {
     ExecutionEvent VariableUpdateEvent;
+    VariableUpdateEvent.FunctionName = FunctionName;
     VariableUpdateEvent.Type = EventType::VariableUpdate;
     VariableUpdateEvent.variable = variable;
     VariableUpdateEvent.variable.VariableValue = variable.VariableValue;

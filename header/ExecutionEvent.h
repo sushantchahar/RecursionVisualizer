@@ -19,10 +19,11 @@ struct ExecutionEvent
     std::string FunctionName;
 
     std::vector<Variable> Parameters;
-    std::vector<Variable> Variables;
 
     Variable variable;
     Variable ReturnValue;
+
+    int CallDepth = 0;
 };
 
 #endif //RECURSIONVISUALIZER_EXECUTIONEVENT_H
